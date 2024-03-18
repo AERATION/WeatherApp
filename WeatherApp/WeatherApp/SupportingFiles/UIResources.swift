@@ -14,7 +14,7 @@ class UR {
         static let currentDateTop = 8
         static let currentDateHeight = 32
         
-        static let currentCityTop = 15
+        static let currentCityTop = 32
         static let currentCityHeight = 32
         
         static let searchImageLeading = 8
@@ -31,5 +31,19 @@ class UR {
         static let weatherContentTrailing = -4
         static let weatherContentTop = 64
         static let weatherContentHeight = 300
+    }
+    
+    struct Fonts {
+        static let cityFont = FM.interBlack(40)
+        static let conditionFont = FM.interRegular(36)
+        static let tempFont = FM.interBlack(52)
+        static let dayNameFont = FM.interBlack(28)
+        static let tempCellFont = FM.interRegular(20)
+    }
+    
+    //MARK: - Date Format
+    struct DateFormat {
+        static let dayName = "EEEE"
+        static let time = "hh:mm"
     }
 }

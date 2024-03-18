@@ -1,10 +1,11 @@
 
-import UIKit
 import Foundation
-import SnapKit
-import Combine
+import UIKit
+import Kingfisher
 
-class WeatherContentView: UIView {
+class CurrentWeatherCell: UICollectionViewCell {
+    
+    static let identifier = "CurrentWeatherCell"
     
     private let searchImageView: UIImageView = {
         let imageView = UIImageView()
@@ -30,68 +31,56 @@ class WeatherContentView: UIView {
     private let currentCityLabel: UILabel = {
         let label = UILabel()
         label.text = "Moscow"
+        label.font = UR.Fonts.cityFont
         return label
+    } ()
+    
+    private let weatherImage: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(systemName: "sun.max")
+        return image
     } ()
     
     private let currentTempLabel: UILabel = {
         let label = UILabel()
-        label.text = "..."
+        label.text = ""
+        label.font = UR.Fonts.tempFont
         return label
     } ()
     
-    private let minMaxTempLabel: UILabel = {
+    private let conditionLabel: UILabel = {
         let label = UILabel()
-        label.text = "..."
+        label.text = ""
+        label.font = UR.Fonts.conditionFont
         return label
     } ()
-    
-    private var subscriptions = Set<AnyCancellable>()
-    
-    var viewModel: WeatherViewModel = WeatherViewModel()
     
     override init(frame: CGRect) {
-        super.init(frame: .zero)
-        configureUI()
-        connectViewModel()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func configureUI() {
+        super.init(frame: frame)
         self.layer.cornerRadius = 40
         self.backgroundColor = .white
         self.addSubview(searchImageView)
         self.addSubview(locationImageView)
         self.addSubview(currentCityLabel)
         self.addSubview(currentDateLabel)
+        self.addSubview(weatherImage)
         self.addSubview(currentTempLabel)
-        self.addSubview(minMaxTempLabel)
+        self.addSubview(conditionLabel)
         makeConstrains()
     }
     
-    private func connectViewModel() {
-        viewModel.getCurrentWeather()
-        
-        viewModel.$cityName
-            .sink { [weak self] cityName in
-                self?.currentCityLabel.text = cityName
-            }
-            .store(in: &subscriptions)
-        
-        viewModel.$temp
-            .sink { [weak self] temp in
-                self?.currentTempLabel.text = "\(temp)℃"
-            }
-            .store(in: &subscriptions)
-        viewModel.$maxMinTemp
-            .sink { [weak self] resp in
-                self?.minMaxTempLabel.text = resp
-            }
-            .store(in: &subscriptions)
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        currentCityLabel.text = nil
+        weatherImage.image = nil
+        currentTempLabel.text = nil
+        conditionLabel.text = nil
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     private func makeConstrains() {
         currentDateLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(UR.Constraints.currentDateLeading)
@@ -104,17 +93,24 @@ class WeatherContentView: UIView {
             make.top.equalToSuperview().offset(UR.Constraints.currentCityTop)
             make.height.equalTo(UR.Constraints.currentCityHeight)
         }
-        
+    
         currentTempLabel.snp.makeConstraints { make in
-            make.top.equalTo(currentCityLabel.snp.bottom).offset(32)
+            make.top.equalTo(currentCityLabel.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
             make.height.equalTo(42)
         }
         
-        minMaxTempLabel.snp.makeConstraints { make in
+        conditionLabel.snp.makeConstraints { make in
             make.top.equalTo(currentTempLabel.snp.bottom).offset(16)
-            make.center.equalToSuperview()
+            make.centerX.equalToSuperview()
             make.height.equalTo(42)
+        }
+        
+        weatherImage.snp.makeConstraints { make in
+            make.centerY.equalTo(conditionLabel.snp.centerY)
+            make.trailing.equalTo(conditionLabel.snp.leading).offset(32)
+            make.height.equalTo(128)
+            make.width.equalTo(128)
         }
         
         searchImageView.snp.makeConstraints { make in
@@ -130,6 +126,15 @@ class WeatherContentView: UIView {
             make.height.equalTo(UR.Constraints.locationImageHeight)
             make.width.equalTo(UR.Constraints.locationImageWidth)
         }
+    }
+    
+    func configureCell(for current: Current, location: Loc) {
+        currentTempLabel.text = "\(String(Int(current.tempC))) °C"
+        currentCityLabel.text = location.name
+        let newUrl = current.condition.icon.replacingOccurrences(of: "64x64", with: "128x128", options: NSString.CompareOptions.literal, range: nil)
+        let url = URL(string: "https:\(newUrl)")
+        conditionLabel.text = current.condition.text
+        weatherImage.kf.setImage(with: url)
     }
     
 }

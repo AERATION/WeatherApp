@@ -15,13 +15,13 @@ final class WeatherManager: WeatherServiceProtocol {
     private var cancellable = Set<AnyCancellable>()
     
     func getCurrentWeather(city: String) {
-        let url = URL(string: APIConfig.getCurrentWeatherByCity(city: city))!
+        let url = URL(string: APIConfig.getWeatherByCity(city: city))!
         
         let publisher = URLSession.shared
             .dataTaskPublisher(for: url)
             .receive(on: DispatchQueue.main)
             .map(\.data)
-            .decode(type: CurrentWeather.self, decoder: JSONDecoder())
+            .decode(type: Weather.self, decoder: JSONDecoder())
             .sink(receiveCompletion:{ res in
                 print(res)
             }, receiveValue: { [weak self] response in
@@ -31,13 +31,13 @@ final class WeatherManager: WeatherServiceProtocol {
     }
     
     func getCurrentWeather(location: Location) {
-        let url = URL(string: APIConfig.getCurrentWeatherByCoordinate(location: location))!
+        let url = URL(string: APIConfig.getWeatherByCoordinate(location: location))!
         
         let publisher = URLSession.shared
             .dataTaskPublisher(for: url)
             .receive(on: DispatchQueue.main)
             .map(\.data)
-            .decode(type: CurrentWeather.self, decoder: JSONDecoder())
+            .decode(type: Weather.self, decoder: JSONDecoder())
             .sink(receiveCompletion:{ res in
                 print(res)
             }, receiveValue: { [weak self] response in
