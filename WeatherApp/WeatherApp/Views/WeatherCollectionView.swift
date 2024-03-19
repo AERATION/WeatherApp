@@ -3,7 +3,7 @@ import UIKit
 import Foundation
 import Combine
 
-final class NewWeather: UIView {
+final class WeatherCollectionView: UIView {
     
     private var newCollectionView: UICollectionView!
     
@@ -13,28 +13,18 @@ final class NewWeather: UIView {
     
     var viewModel: WeatherViewModel = WeatherViewModel()
     
-
     override init(frame: CGRect) {
         super.init(frame: frame)
-        translatesAutoresizingMaskIntoConstraints = false
-
+        
         setupCollectionView()
         connectViewModel()
     }
-    
-    init() {
-        super.init(frame: .zero)
-        setupCollectionView()
-        connectViewModel()
-    }
-    
 
     required init?(coder: NSCoder) {
         fatalError()
     }
     
     private func connectViewModel() {
-//        viewModel.getCurrentWeather()
         
         viewModel.collectionDailyVM.$forecastDays
             .sink { [weak self] forecast in
@@ -58,6 +48,7 @@ final class NewWeather: UIView {
         newCollectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        newCollectionView.backgroundColor = UIColor(patternImage: UIImage(named: "Splash")!)
         newCollectionView.register(HourlyWeatherCell.self, forCellWithReuseIdentifier: HourlyWeatherCell.identifier)
         newCollectionView.register(DailyWeatherCell.self, forCellWithReuseIdentifier: DailyWeatherCell.identifier)
         newCollectionView.register(CurrentWeatherCell.self, forCellWithReuseIdentifier: CurrentWeatherCell.identifier)
@@ -76,7 +67,7 @@ final class NewWeather: UIView {
                     layoutSize: .init(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.75)),
                     subitems: [item]
                 )
-
+            
                 return NSCollectionLayoutSection(group: group)
             case 1:
                 let item = NSCollectionLayoutItem(layoutSize: .init(
@@ -84,16 +75,16 @@ final class NewWeather: UIView {
                     heightDimension: .fractionalHeight(1.0)
                 ))
 
-
                 let group = NSCollectionLayoutGroup.horizontal(
                     layoutSize: .init(widthDimension: .fractionalWidth(0.25),
                                       heightDimension: .absolute(150)),
                     subitems: [item]
                 )
                 group.contentInsets = .init(top: 1, leading: 2, bottom: 1, trailing: 2)
-
+            
                 let section =  NSCollectionLayoutSection(group: group)
                 section.orthogonalScrollingBehavior = .continuous
+            
                 return section
             case 2:
                 let item = NSCollectionLayoutItem(layoutSize: .init(
@@ -106,7 +97,6 @@ final class NewWeather: UIView {
                                       heightDimension: .absolute(100)),
                     subitems: [item]
                 )
-                group.contentInsets = .init(top: 2, leading: 2, bottom: 2, trailing: 2)
 
                 return NSCollectionLayoutSection(group: group)
             default:
@@ -130,7 +120,7 @@ final class NewWeather: UIView {
     }
 }
 
-extension NewWeather: UICollectionViewDataSource {
+extension WeatherCollectionView: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 3
     }

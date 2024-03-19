@@ -2,8 +2,10 @@
 import Foundation
 import UIKit
 
-class DailyWeatherCell: UICollectionViewCell {
-    static let identifier = "matthew"
+final class DailyWeatherCell: UICollectionViewCell {
+    
+    //MARK: - Identifier
+    static let identifier = "DailyWeatherCell"
     
     //MARK: - Properties
     let dayTimePeriodFormatter = DateFormatter()
@@ -23,14 +25,12 @@ class DailyWeatherCell: UICollectionViewCell {
     
     private var maxTempLabel: UILabel = {
         let label = UILabel()
-        label.text = "1235"
         label.font = UR.Fonts.tempCellFont
         return label
     } ()
     
     private var minTempLabel: UILabel = {
         let label = UILabel()
-        label.text = "1235"
         label.font = UR.Fonts.tempCellFont
         return label
     } ()
@@ -41,7 +41,10 @@ class DailyWeatherCell: UICollectionViewCell {
         contentView.addSubview(conditionImageView)
         contentView.addSubview(maxTempLabel)
         contentView.addSubview(minTempLabel)
-        contentView.backgroundColor = .darkGray
+        contentView.backgroundColor = UR.Colors.indigo
+        contentView.layer.borderWidth = 1
+        contentView.layer.borderColor = UR.Colors.lightGray?.cgColor
+        contentView.alpha = 0.8
         makeCellConstraints()
     }
     

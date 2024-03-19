@@ -3,7 +3,7 @@ import Foundation
 import UIKit
 import Kingfisher
 
-class CurrentWeatherCell: UICollectionViewCell {
+final class CurrentWeatherCell: UICollectionViewCell {
     
     static let identifier = "CurrentWeatherCell"
     
@@ -19,12 +19,14 @@ class CurrentWeatherCell: UICollectionViewCell {
     private let searchImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UR.Images.imageSearch
+        imageView.tintColor = .black
         return imageView
     } ()
     
     private let locationImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UR.Images.imageLocation
+        imageView.tintColor = .black
         return imageView
     } ()
     
@@ -66,8 +68,6 @@ class CurrentWeatherCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.layer.cornerRadius = 40
-        self.backgroundColor = .white
         self.addSubview(searchImageView)
         self.addSubview(locationImageView)
         self.addSubview(currentCityLabel)
@@ -137,8 +137,8 @@ class CurrentWeatherCell: UICollectionViewCell {
         }
         
         weatherImage.snp.makeConstraints { make in
-            make.centerY.equalTo(conditionLabel.snp.centerY)
-            make.trailing.equalTo(conditionLabel.snp.leading).offset(32)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(conditionLabel.snp.bottom).offset(-16)
             make.height.equalTo(128)
             make.width.equalTo(128)
         }

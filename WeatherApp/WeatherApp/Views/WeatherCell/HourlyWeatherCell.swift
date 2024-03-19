@@ -2,8 +2,9 @@
 import Foundation
 import UIKit
 
-class HourlyWeatherCell: UICollectionViewCell {
-    static let identifier = "hey"
+final class HourlyWeatherCell: UICollectionViewCell {
+    
+    static let identifier = "HourlyWeatherCell"
     
     //MARK: - Properties
     let dayTimePeriodFormatter = DateFormatter()
@@ -12,6 +13,7 @@ class HourlyWeatherCell: UICollectionViewCell {
     private var hourLabel: UILabel = {
         let label = UILabel()
         label.text = ""
+        label.font = .systemFont(ofSize: 23)
         return label
     } ()
     
@@ -23,16 +25,25 @@ class HourlyWeatherCell: UICollectionViewCell {
     private let degreeLabel: UILabel = {
         let label = UILabel()
         label.text = ""
+        label.font = .systemFont(ofSize: 23)
         return label
     } ()
 
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureCellUI()
+    }
+    
+    private func configureCellUI() {
         contentView.addSubview(hourLabel)
         contentView.addSubview(conditionImageView)
         contentView.addSubview(degreeLabel)
-        contentView.backgroundColor = .cyan
+        contentView.backgroundColor = UR.Colors.indigo
+        contentView.layer.borderColor = UR.Colors.lightGray?.cgColor
+        contentView.alpha = 0.9
+        contentView.layer.cornerRadius = 8
+        contentView.layer.borderWidth = 2
         makeCellConstraints()
     }
     
@@ -55,14 +66,14 @@ class HourlyWeatherCell: UICollectionViewCell {
         }
         
         conditionImageView.snp.makeConstraints { make in
-            make.top.equalTo(hourLabel.snp.bottom)
             make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
             make.width.equalTo(64)
             make.height.equalTo(64)
         }
         
         degreeLabel.snp.makeConstraints { make in
-            make.top.equalTo(conditionImageView.snp.bottom).offset(4)
+            make.top.equalTo(conditionImageView.snp.bottom)
             make.centerX.equalToSuperview()
             make.height.equalTo(42)
         }

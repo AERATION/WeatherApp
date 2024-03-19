@@ -1,7 +1,6 @@
 
-
 import Foundation
 
-class DailyWeatherViewModel: ObservableObject {
+final class DailyWeatherViewModel: ObservableObject {
     @Published var forecastDays: [Forecastday] = []
 }

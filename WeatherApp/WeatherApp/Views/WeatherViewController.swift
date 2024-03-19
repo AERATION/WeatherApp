@@ -3,31 +3,23 @@ import UIKit
 import SnapKit
 import Combine
 
-class WeatherViewController: UIViewController {
+final class WeatherViewController: UIViewController {
     
-    private let newWeather: NewWeather = NewWeather()
-    var subscriptions = Set<AnyCancellable>()
+    private let newWeather: WeatherCollectionView = WeatherCollectionView()
+    
+    private var subscriptions = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        
     }
     
-    private let cityText: UITextField = {
-        let field = UITextField()
-        field.placeholder = "City"
-        field.text = "Gedhfhd"
-        return field
-    } ()
     private func configureUI() {
-        view.backgroundColor = .white
+        
         view.addSubview(newWeather)
-//        view.addSubview(cityText)
         makeConstraints()
         newWeather.delegate = self
-        
-
+        view.backgroundColor = UR.Colors.superLightGray
     }
     
     private func makeConstraints() {
@@ -50,9 +42,7 @@ extension WeatherViewController: WeatherCollectionViewProtocolDelegate {
             textField.placeholder = "Город"
         }
         
-        let textField = alertController.textFields![0]
-        
-        addObserver(textField: textField)
+        addObserver(textField: alertController.textFields![0])
         
         let searchButton = UIAlertAction(title: "Найти", style: .default) {
             _ in            
