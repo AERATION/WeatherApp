@@ -7,6 +7,15 @@ class CurrentWeatherCell: UICollectionViewCell {
     
     static let identifier = "CurrentWeatherCell"
     
+    var searchIconTapedAction: (() -> ())?
+    var locationIconTapedAction: (() -> ())?
+    
+    private let cityTextField: UITextField = {
+        let textField = UITextField()
+        
+        return textField
+    } ()
+    
     private let searchImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UR.Images.imageSearch
@@ -66,7 +75,28 @@ class CurrentWeatherCell: UICollectionViewCell {
         self.addSubview(weatherImage)
         self.addSubview(currentTempLabel)
         self.addSubview(conditionLabel)
+        addTargets()
         makeConstrains()
+    }
+    
+    private func addTargets() {
+        let searchTapped = UITapGestureRecognizer(target: self, action: #selector(searchTapped(tapGestureRecognizer:)))
+        searchImageView.isUserInteractionEnabled = true
+        searchImageView.addGestureRecognizer(searchTapped)
+        
+        let locationTapped = UITapGestureRecognizer(target: self, action: #selector(locationTapped(tapGestureRecognizer:)))
+        locationImageView.isUserInteractionEnabled = true
+        locationImageView.addGestureRecognizer(locationTapped)
+    }
+    
+    @objc func searchTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        searchIconTapedAction?()
+    }
+    
+    @objc func locationTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        locationIconTapedAction?()
     }
     
     override func prepareForReuse() {

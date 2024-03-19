@@ -9,7 +9,10 @@ final class NewWeather: UIView {
     
     private var subscriptions = Set<AnyCancellable>()
     
+    weak var delegate: WeatherCollectionViewProtocolDelegate?
+    
     var viewModel: WeatherViewModel = WeatherViewModel()
+    
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,6 +27,7 @@ final class NewWeather: UIView {
         setupCollectionView()
         connectViewModel()
     }
+    
 
     required init?(coder: NSCoder) {
         fatalError()
@@ -149,6 +153,12 @@ extension NewWeather: UICollectionViewDataSource {
             case 0:
                 guard let cell = newCollectionView.dequeueReusableCell(withReuseIdentifier: CurrentWeatherCell.identifier, for: indexPath) as? CurrentWeatherCell else {
                     return UICollectionViewCell()
+                }
+                cell.searchIconTapedAction = {
+                    self.delegate?.showAlertController()
+                }
+                cell.locationIconTapedAction = {
+                    self.viewModel.getCurrentWeather()
                 }
                 cell.configureCell(for: viewModel.current, location: viewModel.location)
                 return cell
