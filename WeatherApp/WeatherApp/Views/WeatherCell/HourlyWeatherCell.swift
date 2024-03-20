@@ -4,44 +4,36 @@ import UIKit
 
 final class HourlyWeatherCell: UICollectionViewCell {
     
+    //MARK: - Identifier
     static let identifier = "HourlyWeatherCell"
     
     //MARK: - Properties
-    let dayTimePeriodFormatter = DateFormatter()
-
-    
-    private var hourLabel: UILabel = {
+    private let hourLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 23)
+        label.font = UR.Fonts.tempCellFont
         return label
     } ()
     
     private let conditionImageView: UIImageView = {
         let image = UIImageView()
+        image.image = UR.Images.defaultImage
         return image
     } ()
     
     private let degreeLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 23)
+        label.font = UR.Fonts.tempCellFont
         return label
     } ()
 
+    //MARK: - Initializations
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureCellUI()
     }
     
-    private func configureCellUI() {
-        contentView.addSubview(hourLabel)
-        contentView.addSubview(conditionImageView)
-        contentView.addSubview(degreeLabel)
-        contentView.backgroundColor = UR.Colors.indigo
-        contentView.layer.borderColor = UR.Colors.lightGray?.cgColor
-        contentView.alpha = 0.9
-        contentView.layer.cornerRadius = 8
-        contentView.layer.borderWidth = 2
-        makeCellConstraints()
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func prepareForReuse() {
@@ -51,41 +43,52 @@ final class HourlyWeatherCell: UICollectionViewCell {
         degreeLabel.text = nil
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    //MARK: - Private functions
+    private func configureCellUI() {
+        contentView.addSubview(hourLabel)
+        contentView.addSubview(conditionImageView)
+        contentView.addSubview(degreeLabel)
+        contentView.backgroundColor = UR.Colors.indigo
+        contentView.layer.borderColor = UR.Colors.lightGray?.cgColor
+        contentView.alpha = UR.Constraints.HourlyCell.hourlyAlpha
+        contentView.layer.cornerRadius = UR.Constraints.HourlyCell.hourlyCornerRadius
+        contentView.layer.borderWidth = UR.Constraints.HourlyCell.hourltBorderWidth
+        makeCellConstraints()
     }
-    
+
     private func makeCellConstraints() {
         hourLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(4)
+            make.top.equalToSuperview().offset(UR.Constraints.HourlyCell.hourLabelTop)
             make.centerX.equalToSuperview()
-            make.height.equalTo(42)
+            make.height.equalTo(UR.Constraints.HourlyCell.hourLabelHeight)
         }
         
         conditionImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
-            make.width.equalTo(64)
-            make.height.equalTo(64)
+            make.width.equalTo(UR.Constraints.HourlyCell.conditionImageWidth)
+            make.height.equalTo(UR.Constraints.HourlyCell.conditionImageHeight)
         }
         
         degreeLabel.snp.makeConstraints { make in
             make.top.equalTo(conditionImageView.snp.bottom)
             make.centerX.equalToSuperview()
-            make.height.equalTo(42)
+            make.height.equalTo(UR.Constraints.HourlyCell.degreeLabelHeight)
         }
     }
     
+    //MARK: - Configure cell
     func configureCell(for hour: Hour) {
-        dayTimePeriodFormatter.dateFormat = UR.DateFormat.time
-       
+        degreeLabel.text = "\(String(Int(hour.tempC))) °C"
+        
         let date = Date(timeIntervalSince1970: Double(hour.timeEpoch))
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
         let newTime = formatter.string(from: date)
-        self.hourLabel.text = newTime
+        hourLabel.text = newTime
+        
         let url = URL(string: "https:\(hour.condition.icon)")
         conditionImageView.kf.setImage(with: url)
-        degreeLabel.text = "\(String(Int(hour.tempC))) °C"
+        
     }
 }

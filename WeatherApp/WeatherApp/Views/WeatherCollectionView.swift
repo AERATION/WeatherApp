@@ -5,7 +5,8 @@ import Combine
 
 final class WeatherCollectionView: UIView {
     
-    private var newCollectionView: UICollectionView!
+    //MARK: - Properties
+    private var collectionView: UICollectionView!
     
     private var subscriptions = Set<AnyCancellable>()
     
@@ -13,6 +14,7 @@ final class WeatherCollectionView: UIView {
     
     var viewModel: WeatherViewModel = WeatherViewModel()
     
+    //MARK: - Initializations
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -24,60 +26,62 @@ final class WeatherCollectionView: UIView {
         fatalError()
     }
     
+    //MARK: - Private functions
     private func connectViewModel() {
-        
-        viewModel.collectionDailyVM.$forecastDays
+        viewModel.$collectionDaily
             .sink { [weak self] forecast in
-                self?.newCollectionView.reloadData()
+                self?.collectionView.reloadData()
             }
             .store(in: &subscriptions)
         
-        viewModel.collectionHourlyVM.$hours
+        viewModel.$collectionHourly
             .sink { [weak self] hourly in
-                self?.newCollectionView.reloadData()
+                self?.collectionView.reloadData()
             }
             .store(in: &subscriptions)
     }
     
-    func setupCollectionView() {
+    private func setupCollectionView() {
         let layout = UICollectionViewCompositionalLayout { sectionIndex, _ in
             return self.layout(for: sectionIndex)
         }
-        newCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        self.addSubview(newCollectionView)
-        newCollectionView.snp.makeConstraints { make in
+        
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        self.addSubview(collectionView)
+        collectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        newCollectionView.backgroundColor = UIColor(patternImage: UIImage(named: "Splash")!)
-        newCollectionView.register(HourlyWeatherCell.self, forCellWithReuseIdentifier: HourlyWeatherCell.identifier)
-        newCollectionView.register(DailyWeatherCell.self, forCellWithReuseIdentifier: DailyWeatherCell.identifier)
-        newCollectionView.register(CurrentWeatherCell.self, forCellWithReuseIdentifier: CurrentWeatherCell.identifier)
-        newCollectionView.dataSource = self
+        
+        collectionView.backgroundColor = UIColor(patternImage: UR.Images.backgroundImage)
+        collectionView.register(HourlyWeatherCell.self, forCellWithReuseIdentifier: HourlyWeatherCell.identifier)
+        collectionView.register(DailyWeatherCell.self, forCellWithReuseIdentifier: DailyWeatherCell.identifier)
+        collectionView.register(CurrentWeatherCell.self, forCellWithReuseIdentifier: CurrentWeatherCell.identifier)
+        collectionView.dataSource = self
     }
     
     private func layout(for sectionIndex: Int) -> NSCollectionLayoutSection {
         switch sectionIndex {
             case 0:
                 let item = NSCollectionLayoutItem(layoutSize: .init(
-                    widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .fractionalHeight(1.0)
+                    widthDimension: .fractionalWidth(UR.Constraints.CollectionView.currentSectionItemWidth),
+                    heightDimension: .fractionalHeight(UR.Constraints.CollectionView.currentSectionItemHeight)
                 ))
 
                 let group = NSCollectionLayoutGroup.vertical(
-                    layoutSize: .init(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.75)),
+                    layoutSize: .init(widthDimension: .fractionalWidth(UR.Constraints.CollectionView.currentSectionGroupWidth), heightDimension: .fractionalWidth(UR.Constraints.CollectionView.currentSectionGroupHeight)),
                     subitems: [item]
                 )
             
                 return NSCollectionLayoutSection(group: group)
             case 1:
                 let item = NSCollectionLayoutItem(layoutSize: .init(
-                    widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .fractionalHeight(1.0)
+                    widthDimension: .fractionalWidth(UR.Constraints.CollectionView.hourlySectionItemWidth),
+                    heightDimension: .fractionalHeight(UR.Constraints.CollectionView.hourlySectionItemHeight)
                 ))
 
                 let group = NSCollectionLayoutGroup.horizontal(
-                    layoutSize: .init(widthDimension: .fractionalWidth(0.25),
-                                      heightDimension: .absolute(150)),
+                    layoutSize: .init(widthDimension: .fractionalWidth(UR.Constraints.CollectionView.hourlySectionGroupWidth),
+                                      heightDimension: .absolute(UR.Constraints.CollectionView.hourlySectionGroupHeight)),
                     subitems: [item]
                 )
                 group.contentInsets = .init(top: 1, leading: 2, bottom: 1, trailing: 2)
@@ -88,38 +92,35 @@ final class WeatherCollectionView: UIView {
                 return section
             case 2:
                 let item = NSCollectionLayoutItem(layoutSize: .init(
-                    widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .fractionalHeight(1.0)
+                    widthDimension: .fractionalWidth(UR.Constraints.CollectionView.dailySectionItemWidth),
+                    heightDimension: .fractionalHeight(UR.Constraints.CollectionView.dailySectionItemHeight)
                 ))
 
                 let group = NSCollectionLayoutGroup.vertical(
-                    layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                      heightDimension: .absolute(100)),
+                    layoutSize: .init(widthDimension: .fractionalWidth(UR.Constraints.CollectionView.dailySectionGroupWidth),
+                                      heightDimension: .absolute(UR.Constraints.CollectionView.dailySectionGroupHeight)),
                     subitems: [item]
                 )
 
                 return NSCollectionLayoutSection(group: group)
             default:
                 let item = NSCollectionLayoutItem(layoutSize: .init(
-                    widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .fractionalHeight(1.0)
+                    widthDimension: .fractionalWidth(UR.Constraints.CollectionView.dailySectionItemWidth),
+                    heightDimension: .fractionalHeight(UR.Constraints.CollectionView.dailySectionItemHeight)
                 ))
 
-
-                let group = NSCollectionLayoutGroup.horizontal(
-                    layoutSize: .init(widthDimension: .fractionalWidth(0.25),
-                                      heightDimension: .absolute(150)),
+                let group = NSCollectionLayoutGroup.vertical(
+                    layoutSize: .init(widthDimension: .fractionalWidth(UR.Constraints.CollectionView.dailySectionGroupWidth),
+                                      heightDimension: .absolute(UR.Constraints.CollectionView.dailySectionGroupHeight)),
                     subitems: [item]
                 )
-                group.contentInsets = .init(top: 1, leading: 2, bottom: 1, trailing: 2)
 
-                let section =  NSCollectionLayoutSection(group: group)
-                section.orthogonalScrollingBehavior = .continuous
-                return section
+                return NSCollectionLayoutSection(group: group)
         }
     }
 }
 
+//MARK: - UICollectionViewDataSource
 extension WeatherCollectionView: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 3
@@ -130,9 +131,9 @@ extension WeatherCollectionView: UICollectionViewDataSource {
             case 0:
                 return 1
             case 1:
-                return viewModel.collectionHourlyVM.hours.count
+                return viewModel.collectionHourly.count
             case 2:
-                return viewModel.collectionDailyVM.forecastDays.count
+                return viewModel.collectionDaily.count
             default:
                 return 0
         }
@@ -141,7 +142,7 @@ extension WeatherCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
             case 0:
-                guard let cell = newCollectionView.dequeueReusableCell(withReuseIdentifier: CurrentWeatherCell.identifier, for: indexPath) as? CurrentWeatherCell else {
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CurrentWeatherCell.identifier, for: indexPath) as? CurrentWeatherCell else {
                     return UICollectionViewCell()
                 }
                 cell.searchIconTapedAction = {
@@ -153,17 +154,17 @@ extension WeatherCollectionView: UICollectionViewDataSource {
                 cell.configureCell(for: viewModel.current, location: viewModel.location)
                 return cell
             case 1:
-                guard let cell = newCollectionView.dequeueReusableCell(withReuseIdentifier: HourlyWeatherCell.identifier, for: indexPath) as? HourlyWeatherCell else {
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HourlyWeatherCell.identifier, for: indexPath) as? HourlyWeatherCell else {
                     return UICollectionViewCell()
                 }
-                let hour = viewModel.collectionHourlyVM.hours[indexPath.row]
+                let hour = viewModel.collectionHourly[indexPath.row]
                 cell.configureCell(for: hour)
                 return cell
             case 2:
-                guard let cell = newCollectionView.dequeueReusableCell(withReuseIdentifier: DailyWeatherCell.identifier, for: indexPath) as? DailyWeatherCell else {
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyWeatherCell.identifier, for: indexPath) as? DailyWeatherCell else {
                     return UICollectionViewCell()
                 }
-                let day = viewModel.collectionDailyVM.forecastDays[indexPath.row]
+                let day = viewModel.collectionDaily[indexPath.row]
                 cell.configureCell(for: day)
                 return cell
             default:

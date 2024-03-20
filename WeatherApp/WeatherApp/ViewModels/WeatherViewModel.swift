@@ -4,35 +4,38 @@ import Foundation
 
 final class WeatherViewModel: ObservableObject {
     
-    @Published var city: String = ""
-    
-    
-    var current: Current = Current(dateEpoch: 0, tempC: 0, condition: Condition(text: "", icon: "", code: 2), humidity: 2)
-    var location: Location = Location(name: "", lat: 1, lon: 2)
     private var service: WeatherServiceProtocol
     
-    var collectionHourlyVM = HourlyWeatherViewModel()
-    var collectionDailyVM = DailyWeatherViewModel()
+    @Published var city: String = ""
+    @Published var collectionHourly: [Hour] = []
+    @Published var collectionDaily: [Forecastday] = []
+    
+    var current: Current = Current(dateEpoch: 0, tempC: 0, condition: Condition(text: "", icon: "", code: 0), humidity: 0)
+    
+//    var current: Current? = nil
+    
+    var location: Location = Location(name: "", lat: 1, lon: 2)
+//    var location: Location? = nil
     
     var weather: Weather? = nil {
         didSet {
             if let weather {
-                collectionDailyVM.forecastDays = weather.forecast.forecastday
-                collectionHourlyVM.hours = weather.forecast.forecastday.first!.hour
+                collectionHourly = weather.forecast.forecastday.first!.hour
+                collectionDaily = weather.forecast.forecastday
                 current = weather.current
                 location = weather.location
             }
         }
     }
     
+    //MARK: - Init
     init(service: WeatherServiceProtocol = WeatherManager.shared) {
         self.service = service
         self.service.vm = self
-        self.collectionDailyVM = DailyWeatherViewModel()
-        self.collectionHourlyVM = HourlyWeatherViewModel()
         getCurrentWeather()
     }
     
+    //MARK: - Functions
     func onSearchIconTapped() {
         service.getCurrentWeather(city: self.city)
     }

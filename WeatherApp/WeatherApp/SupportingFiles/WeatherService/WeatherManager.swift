@@ -10,6 +10,7 @@ protocol WeatherServiceProtocol {
 }
 
 final class WeatherManager: WeatherServiceProtocol {
+    
     static let shared = WeatherManager()
     var vm: WeatherViewModel? = nil
     private var cancellable = Set<AnyCancellable>()
@@ -23,7 +24,7 @@ final class WeatherManager: WeatherServiceProtocol {
             .map(\.data)
             .decode(type: Weather.self, decoder: JSONDecoder())
             .sink(receiveCompletion:{ res in
-//                print(res)
+
             }, receiveValue: { [weak self] response in
                 self?.vm?.weather = response
             })
@@ -39,7 +40,7 @@ final class WeatherManager: WeatherServiceProtocol {
             .map(\.data)
             .decode(type: Weather.self, decoder: JSONDecoder())
             .sink(receiveCompletion:{ res in
-//                print(res)
+
             }, receiveValue: { [weak self] response in
                 self?.vm?.weather = response
             })

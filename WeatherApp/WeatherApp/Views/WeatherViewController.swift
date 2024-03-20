@@ -1,33 +1,36 @@
-import CoreLocation
+
 import UIKit
 import SnapKit
 import Combine
 
 final class WeatherViewController: UIViewController {
     
-    private let newWeather: WeatherCollectionView = WeatherCollectionView()
+    //MARK: - Properties
+    private let weatherCollectionView: WeatherCollectionView = WeatherCollectionView()
     
     private var subscriptions = Set<AnyCancellable>()
     
+    //MARK: - Initializations
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
     }
     
+    //MARK: - Private functions
     private func configureUI() {
-        
-        view.addSubview(newWeather)
+        view.addSubview(weatherCollectionView)
         makeConstraints()
-        newWeather.delegate = self
+        weatherCollectionView.delegate = self
     }
     
     private func makeConstraints() {
-        newWeather.snp.makeConstraints { make in
+        weatherCollectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
 }
 
+//MARK: - WeatherCollectionViewProtocolDelegate
 protocol WeatherCollectionViewProtocolDelegate: AnyObject {
     func showAlertController()
 }
@@ -44,7 +47,7 @@ extension WeatherViewController: WeatherCollectionViewProtocolDelegate {
         
         let searchButton = UIAlertAction(title: "Найти", style: .default) {
             _ in            
-            self.newWeather.viewModel.onSearchIconTapped()
+            self.weatherCollectionView.viewModel.onSearchIconTapped()
         }
         let cancelButton = UIAlertAction(title: "Отменить", style: .cancel, handler: nil)
         alertController.addAction(cancelButton)
@@ -56,9 +59,7 @@ extension WeatherViewController: WeatherCollectionViewProtocolDelegate {
         NotificationCenter.default
             .publisher(for: UITextField.textDidChangeNotification, object: textField)
             .compactMap( {($0.object as? UITextField)?.text ?? "" })
-            .assign(to: \.city, on: newWeather.viewModel)
+            .assign(to: \.city, on: weatherCollectionView.viewModel)
             .store(in: &subscriptions)
     }
-        
 }
-
