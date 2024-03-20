@@ -4,10 +4,11 @@ import Foundation
 
 final class WeatherViewModel: ObservableObject {
     
-    @Published var current: Current = Current(dateEpoch: 0, tempC: 0, condition: Condition(text: "", icon: "", code: 2), humidity: 2)
-    @Published var location: Loc = Loc(name: "", lat: 1, lon: 2)
     @Published var city: String = ""
     
+    
+    var current: Current = Current(dateEpoch: 0, tempC: 0, condition: Condition(text: "", icon: "", code: 2), humidity: 2)
+    var location: Location = Location(name: "", lat: 1, lon: 2)
     private var service: WeatherServiceProtocol
     
     var collectionHourlyVM = HourlyWeatherViewModel()
@@ -23,7 +24,6 @@ final class WeatherViewModel: ObservableObject {
             }
         }
     }
-
     
     init(service: WeatherServiceProtocol = WeatherManager.shared) {
         self.service = service
@@ -39,10 +39,9 @@ final class WeatherViewModel: ObservableObject {
     
     func getCurrentWeather() {
         LocationManager.shared.getCurrentLocation { location in
-            let newLocation: Location = Location(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            let newLocation: Location = Location(name: "", lat: location.coordinate.latitude, lon: location.coordinate.longitude)
             self.service.getCurrentWeather(location: newLocation)
         }
-        
     }
     
     

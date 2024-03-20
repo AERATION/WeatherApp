@@ -158,7 +158,7 @@ final class CurrentWeatherCell: UICollectionViewCell {
         }
     }
     
-    func configureCell(for current: Current, location: Loc) {
+    func configureCell(for current: Current, location: Location) {
         currentTempLabel.text = "\(String(Int(current.tempC))) °C"
         currentCityLabel.text = location.name
         let newUrl = current.condition.icon.replacingOccurrences(of: "64x64", with: "128x128", options: NSString.CompareOptions.literal, range: nil)

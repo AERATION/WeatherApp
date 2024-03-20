@@ -1,10 +1,9 @@
 
 import Foundation
 
-
 //MARK: - Weather
 struct Weather: Codable {
-    let location: Loc
+    let location: Location
     let current: Current
     let forecast: Forecast
 }
@@ -83,7 +82,7 @@ struct Hour: Codable {
 }
 
 //MARK: - Location
-struct Loc: Codable {
+struct Location: Codable {
     let name: String
     let lat, lon: Double
 }

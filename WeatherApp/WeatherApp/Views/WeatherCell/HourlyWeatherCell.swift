@@ -12,7 +12,6 @@ final class HourlyWeatherCell: UICollectionViewCell {
     
     private var hourLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
         label.font = .systemFont(ofSize: 23)
         return label
     } ()
@@ -24,12 +23,10 @@ final class HourlyWeatherCell: UICollectionViewCell {
     
     private let degreeLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
         label.font = .systemFont(ofSize: 23)
         return label
     } ()
 
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureCellUI()

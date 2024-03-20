@@ -19,7 +19,6 @@ final class WeatherViewController: UIViewController {
         view.addSubview(newWeather)
         makeConstraints()
         newWeather.delegate = self
-        view.backgroundColor = UR.Colors.superLightGray
     }
     
     private func makeConstraints() {
@@ -27,7 +26,6 @@ final class WeatherViewController: UIViewController {
             make.edges.equalToSuperview()
         }
     }
-
 }
 
 protocol WeatherCollectionViewProtocolDelegate: AnyObject {

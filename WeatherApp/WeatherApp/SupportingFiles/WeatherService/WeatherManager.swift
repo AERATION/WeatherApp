@@ -17,13 +17,13 @@ final class WeatherManager: WeatherServiceProtocol {
     func getCurrentWeather(city: String) {
         let url = URL(string: APIConfig.getWeatherByCity(city: city))!
         
-        let publisher = URLSession.shared
+        URLSession.shared
             .dataTaskPublisher(for: url)
             .receive(on: DispatchQueue.main)
             .map(\.data)
             .decode(type: Weather.self, decoder: JSONDecoder())
             .sink(receiveCompletion:{ res in
-                print(res)
+//                print(res)
             }, receiveValue: { [weak self] response in
                 self?.vm?.weather = response
             })
@@ -33,13 +33,13 @@ final class WeatherManager: WeatherServiceProtocol {
     func getCurrentWeather(location: Location) {
         let url = URL(string: APIConfig.getWeatherByCoordinate(location: location))!
         
-        let publisher = URLSession.shared
+        URLSession.shared
             .dataTaskPublisher(for: url)
             .receive(on: DispatchQueue.main)
             .map(\.data)
             .decode(type: Weather.self, decoder: JSONDecoder())
             .sink(receiveCompletion:{ res in
-                print(res)
+//                print(res)
             }, receiveValue: { [weak self] response in
                 self?.vm?.weather = response
             })
