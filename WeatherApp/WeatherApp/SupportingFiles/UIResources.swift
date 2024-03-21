@@ -97,7 +97,6 @@ final class UR {
             
             static let maxTempLabelTrailing = -16
             static let maxTempLabelHeight = 42
-            
         }
     }
     

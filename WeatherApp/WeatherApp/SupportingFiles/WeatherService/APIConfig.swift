@@ -1,6 +1,4 @@
 
-import Foundation
-
 struct APIConfig {
 
     static let apiKey = "6bebf4cc854b4d1fbeb163537241703"

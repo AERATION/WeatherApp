@@ -37,37 +37,5 @@ final class WeatherManager: WeatherServiceProtocol {
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
-    
-//    func getCurrentWeather(city: String) {
-//        let url = URL(string: APIConfig.getWeatherByCity(city: city))!
-//        
-//        URLSession.shared
-//            .dataTaskPublisher(for: url)
-//            .receive(on: DispatchQueue.main)
-//            .map(\.data)
-//            .decode(type: Weather.self, decoder: JSONDecoder())
-//            .sink(receiveCompletion:{ res in
-//
-//            }, receiveValue: { [weak self] response in
-//                self?.vm?.weather = response
-//            })
-//            .store(in: &cancellable)
-//    }
-//    
-//    func getCurrentWeather(location: Location) {
-//        let url = URL(string: APIConfig.getWeatherByCoordinate(location: location))!
-//        
-//        URLSession.shared
-//            .dataTaskPublisher(for: url)
-//            .receive(on: DispatchQueue.main)
-//            .map(\.data)
-//            .decode(type: Weather.self, decoder: JSONDecoder())
-//            .sink(receiveCompletion:{ res in
-//
-//            }, receiveValue: { [weak self] response in
-//                self?.vm?.weather = response
-//            })
-//            .store(in: &cancellable)
-//    }
 }
 

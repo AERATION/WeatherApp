@@ -1,5 +1,4 @@
 
-import Foundation
 import UIKit
 import Kingfisher
 
@@ -63,13 +62,7 @@ final class CurrentWeatherCell: UICollectionViewCell {
     //MARK: - Initializations
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.addSubview(searchImageView)
-        self.addSubview(locationImageView)
-        self.addSubview(currentCityLabel)
-        self.addSubview(currentDateLabel)
-        self.addSubview(weatherImage)
-        self.addSubview(currentTempLabel)
-        self.addSubview(conditionLabel)
+        addSubviews()
         addTargets()
         makeConstrains()
     }
@@ -87,6 +80,16 @@ final class CurrentWeatherCell: UICollectionViewCell {
     }
     
     //MARK: - Private functions
+    private func addSubviews() {
+        self.addSubview(searchImageView)
+        self.addSubview(locationImageView)
+        self.addSubview(currentCityLabel)
+        self.addSubview(currentDateLabel)
+        self.addSubview(weatherImage)
+        self.addSubview(currentTempLabel)
+        self.addSubview(conditionLabel)
+    }
+    
     private func addTargets() {
         let searchTapped = UITapGestureRecognizer(target: self, action: #selector(searchTapped(tapGestureRecognizer:)))
         searchImageView.isUserInteractionEnabled = true

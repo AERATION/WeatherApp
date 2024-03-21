@@ -29,6 +29,8 @@
 
 /* Begin PBXFileReference section */
 		0E4753002BAC5065000CC417 /* CollectionViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewSection.swift; sourceTree = "<group>"; };
+		0E4753022BAC5E14000CC417 /* Inter-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Black.ttf"; sourceTree = "<group>"; };
+		0E4753032BAC5E1A000CC417 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
 		0E78BDC42BA840C1003FC351 /* WeatherCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCollectionView.swift; sourceTree = "<group>"; };
 		0E78BDC62BA88742003FC351 /* CurrentWeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherCell.swift; sourceTree = "<group>"; };
 		0E7F29C82BA5CBCE003D0A2A /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
@@ -117,6 +119,8 @@
 			isa = PBXGroup;
 			children = (
 				0E7F29DA2BA7339F003D0A2A /* FM.swift */,
+				0E4753022BAC5E14000CC417 /* Inter-Black.ttf */,
+				0E4753032BAC5E1A000CC417 /* Inter-Regular.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";

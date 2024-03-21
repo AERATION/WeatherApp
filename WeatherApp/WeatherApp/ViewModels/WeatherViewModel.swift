@@ -4,6 +4,7 @@ import Foundation
 
 final class WeatherViewModel: ObservableObject {
     
+    //MARK: - Properties
     @Published var city: String = ""
     
     @Published var weather: Weather? = nil

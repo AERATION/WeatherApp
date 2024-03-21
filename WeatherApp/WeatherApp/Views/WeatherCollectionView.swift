@@ -1,6 +1,5 @@
 
 import UIKit
-import Foundation
 import Combine
 
 final class WeatherCollectionView: UIView {

@@ -1,6 +1,5 @@
 
 import UIKit
-import Foundation
 
 //MARK: - FontManager
 class FM {

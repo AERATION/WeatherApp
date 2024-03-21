@@ -37,7 +37,6 @@ protocol WeatherCollectionViewProtocolDelegate: AnyObject {
 
 extension WeatherViewController: WeatherCollectionViewProtocolDelegate {
     func showAlertController() {
-
         let alertController = UIAlertController(title: "Погода", message: "Введите город:", preferredStyle: .alert)
         alertController.addTextField { textField in
             textField.placeholder = "Город"

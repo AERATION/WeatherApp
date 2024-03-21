@@ -1,9 +1,3 @@
-//
-//  AppDelegate.swift
-//  WeatherApp
-//
-//  Created by AERATION on 16.03.2024.
-//
 
 import UIKit
 
