@@ -50,30 +50,30 @@ final class HourlyWeatherCell: UICollectionViewCell {
         contentView.addSubview(degreeLabel)
         contentView.backgroundColor = UR.Colors.indigo
         contentView.layer.borderColor = UR.Colors.lightGray?.cgColor
-        contentView.alpha = UR.Constraints.HourlyCell.hourlyAlpha
-        contentView.layer.cornerRadius = UR.Constraints.HourlyCell.hourlyCornerRadius
-        contentView.layer.borderWidth = UR.Constraints.HourlyCell.hourltBorderWidth
+        contentView.alpha = UR.Constants.HourlyCell.hourlyAlpha
+        contentView.layer.cornerRadius = UR.Constants.HourlyCell.hourlyCornerRadius
+        contentView.layer.borderWidth = UR.Constants.HourlyCell.hourltBorderWidth
         makeCellConstraints()
     }
 
     private func makeCellConstraints() {
         hourLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(UR.Constraints.HourlyCell.hourLabelTop)
+            make.top.equalToSuperview().offset(UR.Constants.HourlyCell.hourLabelTop)
             make.centerX.equalToSuperview()
-            make.height.equalTo(UR.Constraints.HourlyCell.hourLabelHeight)
+            make.height.equalTo(UR.Constants.HourlyCell.hourLabelHeight)
         }
         
         conditionImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
-            make.width.equalTo(UR.Constraints.HourlyCell.conditionImageWidth)
-            make.height.equalTo(UR.Constraints.HourlyCell.conditionImageHeight)
+            make.width.equalTo(UR.Constants.HourlyCell.conditionImageWidth)
+            make.height.equalTo(UR.Constants.HourlyCell.conditionImageHeight)
         }
         
         degreeLabel.snp.makeConstraints { make in
             make.top.equalTo(conditionImageView.snp.bottom)
             make.centerX.equalToSuperview()
-            make.height.equalTo(UR.Constraints.HourlyCell.degreeLabelHeight)
+            make.height.equalTo(UR.Constants.HourlyCell.degreeLabelHeight)
         }
     }
     

@@ -7,18 +7,7 @@ final class UR {
     
     //MARK: - Colors
     struct Colors {
-        static let black = UIColor(named: "black")
-        static let superDrakGray = UIColor(named: "super-dark-gray")
-        static let darkGray = UIColor(named: "dark-gray")
-        static let gray = UIColor(named: "gray")
         static let lightGray = UIColor(named: "light-gray")
-        static let superLightGray = UIColor(named: "super-light-gray")
-        static let white = UIColor(named: "white")
-        static let blue = UIColor(named: "blue")
-        static let darkBlue = UIColor(cgColor: CGColor(red: 0, green: 0.48, blue: 1.28, alpha: 1))
-        static let green = UIColor(named: "green")
-        static let red = UIColor(named: "red")
-        static let lightRed = UIColor(named: "light-red")
         static let indigo = UIColor(named: "indigo")
     }
     
@@ -30,8 +19,8 @@ final class UR {
         static let defaultImage = UIImage(systemName: "questionmark.circle.fill")
     }
     
-    //MARK: - Constraints
-    struct Constraints {
+    //MARK: - Constants
+    struct Constants {
         struct CollectionView {
             static let currentSectionItemWidth: CGFloat = 1.0
             static let currentSectionItemHeight: CGFloat = 1.0
@@ -110,12 +99,6 @@ final class UR {
             static let maxTempLabelHeight = 42
             
         }
-       
-        
-        static let weatherContentLeading = 4
-        static let weatherContentTrailing = -4
-        static let weatherContentTop = 64
-        static let weatherContentHeight = 300
     }
     
     //MARK: - Fonts
@@ -125,6 +108,7 @@ final class UR {
         static let tempFont = FM.interBlack(52)
         static let dayNameFont = FM.interBlack(28)
         static let tempCellFont = FM.interRegular(23)
+        static let dateFont = FM.interRegular(20)
     }
     
     //MARK: - Date Format

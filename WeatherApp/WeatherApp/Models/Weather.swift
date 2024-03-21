@@ -13,13 +13,11 @@ struct Current: Codable {
     let dateEpoch: Int
     let tempC: Double
     let condition: Condition
-    let humidity: Double
 
     enum CodingKeys: String, CodingKey {
         case dateEpoch = "last_updated_epoch"
         case tempC = "temp_c"
         case condition
-        case humidity
     }
 }
 
@@ -27,7 +25,6 @@ struct Current: Codable {
 struct Condition: Codable {
     let text: String
     let icon: String
-    let code: Int
 }
 
 //MARK: - Forecast
@@ -52,15 +49,11 @@ struct Forecastday: Codable {
 //MARK: - Day
 struct Day: Codable {
     let maxtempC, mintempC: Double
-    let avgtempC: Double
-    let avghumidity: Double
     let condition: Condition
 
     enum CodingKeys: String, CodingKey {
         case maxtempC = "maxtemp_c"
         case mintempC = "mintemp_c"
-        case avgtempC = "avgtemp_c"
-        case avghumidity
         case condition
     }
 }

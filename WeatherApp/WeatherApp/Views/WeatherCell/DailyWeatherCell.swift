@@ -41,9 +41,9 @@ final class DailyWeatherCell: UICollectionViewCell {
         contentView.addSubview(maxTempLabel)
         contentView.addSubview(minTempLabel)
         contentView.backgroundColor = UR.Colors.indigo
-        contentView.layer.borderWidth = UR.Constraints.DailyCell.dailyBorderWidth
+        contentView.layer.borderWidth = UR.Constants.DailyCell.dailyBorderWidth
         contentView.layer.borderColor = UR.Colors.lightGray?.cgColor
-        contentView.alpha = UR.Constraints.DailyCell.dailyAlpha
+        contentView.alpha = UR.Constants.DailyCell.dailyAlpha
         makeCellConstraints()
     }
     
@@ -62,28 +62,28 @@ final class DailyWeatherCell: UICollectionViewCell {
     //MARK: - Private functions
     private func makeCellConstraints() {
         dayNameLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(UR.Constraints.DailyCell.dayNameLabelLeading)
+            make.leading.equalToSuperview().offset(UR.Constants.DailyCell.dayNameLabelLeading)
             make.centerY.equalToSuperview()
-            make.height.equalTo(UR.Constraints.DailyCell.dayNameLabelHeight)
+            make.height.equalTo(UR.Constants.DailyCell.dayNameLabelHeight)
         }
         
         conditionImageView.snp.makeConstraints { make in
-            make.trailing.equalTo(minTempLabel.snp.leading).offset(UR.Constraints.DailyCell.conditionImageViewTrailing)
+            make.trailing.equalTo(minTempLabel.snp.leading).offset(UR.Constants.DailyCell.conditionImageViewTrailing)
             make.centerY.equalToSuperview()
-            make.height.equalTo(UR.Constraints.DailyCell.conditionImageViewHeight)
-            make.width.equalTo(UR.Constraints.DailyCell.conditionImageViewWidth)
+            make.height.equalTo(UR.Constants.DailyCell.conditionImageViewHeight)
+            make.width.equalTo(UR.Constants.DailyCell.conditionImageViewWidth)
         }
         
         minTempLabel.snp.makeConstraints { make in
-            make.trailing.equalTo(maxTempLabel.snp.leading).offset(UR.Constraints.DailyCell.minTempLabelTrailing)
+            make.trailing.equalTo(maxTempLabel.snp.leading).offset(UR.Constants.DailyCell.minTempLabelTrailing)
             make.centerY.equalToSuperview()
-            make.height.equalTo(UR.Constraints.DailyCell.minTempLabelHeight)
+            make.height.equalTo(UR.Constants.DailyCell.minTempLabelHeight)
         }
         
         maxTempLabel.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(UR.Constraints.DailyCell.maxTempLabelTrailing)
+            make.trailing.equalToSuperview().offset(UR.Constants.DailyCell.maxTempLabelTrailing)
             make.centerY.equalToSuperview()
-            make.height.equalTo(UR.Constraints.DailyCell.maxTempLabelHeight)
+            make.height.equalTo(UR.Constants.DailyCell.maxTempLabelHeight)
         }
     }
     

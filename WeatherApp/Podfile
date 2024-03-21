@@ -6,6 +6,6 @@ target 'WeatherApp' do
   use_frameworks!
 
   # Pods for WeatherApp
-  pod "SnapKit"
-  pod "Kingfisher"
+  pod "SnapKit", '~> 5.7.0'
+  pod "Kingfisher", '~> 7.0'
 end

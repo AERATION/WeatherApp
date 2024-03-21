@@ -32,6 +32,7 @@ final class CurrentWeatherCell: UICollectionViewCell {
         let formatter = DateFormatter()
         formatter.dateFormat = UR.DateFormat.date
         label.text = formatter.string(from: currentData)
+        label.font = UR.Fonts.dateFont
         return label
     } ()
     
@@ -108,48 +109,48 @@ final class CurrentWeatherCell: UICollectionViewCell {
 
     private func makeConstrains() {
         currentDateLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(UR.Constraints.CurrentCell.dateLeading)
-            make.top.equalToSuperview().offset(UR.Constraints.CurrentCell.dateTop)
-            make.height.equalTo(UR.Constraints.CurrentCell.dateHeight)
+            make.leading.equalToSuperview().offset(UR.Constants.CurrentCell.dateLeading)
+            make.top.equalToSuperview().offset(UR.Constants.CurrentCell.dateTop)
+            make.height.equalTo(UR.Constants.CurrentCell.dateHeight)
         }
         
         currentCityLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(UR.Constraints.CurrentCell.cityTop)
-            make.height.equalTo(UR.Constraints.CurrentCell.cityHeight)
+            make.top.equalToSuperview().offset(UR.Constants.CurrentCell.cityTop)
+            make.height.equalTo(UR.Constants.CurrentCell.cityHeight)
         }
     
         currentTempLabel.snp.makeConstraints { make in
-            make.top.equalTo(currentCityLabel.snp.bottom).offset(UR.Constraints.CurrentCell.tempLabelTop)
+            make.top.equalTo(currentCityLabel.snp.bottom).offset(UR.Constants.CurrentCell.tempLabelTop)
             make.centerX.equalToSuperview()
-            make.height.equalTo(UR.Constraints.CurrentCell.tempLabelHeight)
+            make.height.equalTo(UR.Constants.CurrentCell.tempLabelHeight)
         }
         
         conditionLabel.snp.makeConstraints { make in
-            make.top.equalTo(currentTempLabel.snp.bottom).offset(UR.Constraints.CurrentCell.conditionTop)
+            make.top.equalTo(currentTempLabel.snp.bottom).offset(UR.Constants.CurrentCell.conditionTop)
             make.centerX.equalToSuperview()
-            make.height.equalTo(UR.Constraints.CurrentCell.conditionHeight)
+            make.height.equalTo(UR.Constants.CurrentCell.conditionHeight)
         }
         
         weatherImage.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(conditionLabel.snp.bottom).offset(UR.Constraints.CurrentCell.weatherImageTop)
-            make.height.equalTo(UR.Constraints.CurrentCell.weatherImageHeight)
-            make.width.equalTo(UR.Constraints.CurrentCell.weatherImageWidth)
+            make.top.equalTo(conditionLabel.snp.bottom).offset(UR.Constants.CurrentCell.weatherImageTop)
+            make.height.equalTo(UR.Constants.CurrentCell.weatherImageHeight)
+            make.width.equalTo(UR.Constants.CurrentCell.weatherImageWidth)
         }
         
         searchImageView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(UR.Constraints.CurrentCell.searchImageLeading)
-            make.bottom.equalToSuperview().offset(UR.Constraints.CurrentCell.searchImageBottom)
-            make.height.equalTo(UR.Constraints.CurrentCell.searchImageHeight)
-            make.width.equalTo(UR.Constraints.CurrentCell.searchImageWidth)
+            make.leading.equalToSuperview().offset(UR.Constants.CurrentCell.searchImageLeading)
+            make.bottom.equalToSuperview().offset(UR.Constants.CurrentCell.searchImageBottom)
+            make.height.equalTo(UR.Constants.CurrentCell.searchImageHeight)
+            make.width.equalTo(UR.Constants.CurrentCell.searchImageWidth)
         }
         
         locationImageView.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(UR.Constraints.CurrentCell.locationImageTrailing)
-            make.bottom.equalToSuperview().offset(UR.Constraints.CurrentCell.locationImageBottom)
-            make.height.equalTo(UR.Constraints.CurrentCell.locationImageHeight)
-            make.width.equalTo(UR.Constraints.CurrentCell.locationImageWidth)
+            make.trailing.equalToSuperview().offset(UR.Constants.CurrentCell.locationImageTrailing)
+            make.bottom.equalToSuperview().offset(UR.Constants.CurrentCell.locationImageBottom)
+            make.height.equalTo(UR.Constants.CurrentCell.locationImageHeight)
+            make.width.equalTo(UR.Constants.CurrentCell.locationImageWidth)
         }
     }
     
