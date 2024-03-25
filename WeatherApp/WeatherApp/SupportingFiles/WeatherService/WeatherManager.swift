@@ -10,6 +10,7 @@ protocol WeatherServiceProtocol {
 final class WeatherManager: WeatherServiceProtocol {
     
     static let shared = WeatherManager()
+    
     private var cancellable = Set<AnyCancellable>()
     
     func getCurrentWeather(city: String) -> AnyPublisher<Weather, Error> {

@@ -9,7 +9,9 @@ final class WeatherCollectionView: UIView {
     
     var viewModel: WeatherViewModel = WeatherViewModel()
     
-    private var collectionView: UICollectionView!
+    private lazy var collectionView: UICollectionView = UICollectionView()
+    
+    private lazy var activityIndicatorView: LoadingIndicatorView = LoadingIndicatorView()
     
     private var subscriptions = Set<AnyCancellable>()
 
@@ -18,6 +20,7 @@ final class WeatherCollectionView: UIView {
         super.init(frame: frame)
         
         setupCollectionView()
+        setupLoadingIndicator()
         bindToViewModel()
     }
 
@@ -34,6 +37,33 @@ final class WeatherCollectionView: UIView {
                 }
             }
             .store(in: &subscriptions)
+        viewModel.$loadingState
+            .sink { [weak self] state in
+                switch state {
+                    case .loading:
+                        self?.activityIndicatorView.startIndicatorAnimation()
+                        self?.activityIndicatorView.errorLabel.isHidden = true
+                    case .failed:
+                        self?.activityIndicatorView.stopIndicatorAnimation()
+                        self?.activityIndicatorView.errorLabel.isHidden = false
+                    case .success:
+                        self?.activityIndicatorView.stopIndicatorAnimation()
+                        self?.activityIndicatorView.errorLabel.isHidden = true
+                    case .none:
+                        self?.activityIndicatorView.stopIndicatorAnimation()
+                        self?.activityIndicatorView.errorLabel.isHidden = true
+                }
+            }
+            .store(in: &subscriptions)
+    }
+    
+    private func setupLoadingIndicator() {
+        self.addSubview(activityIndicatorView)
+        activityIndicatorView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(UR.Constants.CollectionView.activityIndicatorTop)
+            make.height.equalTo(UR.Constants.CollectionView.activityIndicatorHeight)
+        }
     }
     
     private func setupCollectionView() {
@@ -81,7 +111,7 @@ final class WeatherCollectionView: UIView {
                                       heightDimension: .absolute(UR.Constants.CollectionView.hourlySectionGroupHeight)),
                     subitems: [item]
                 )
-                group.contentInsets = .init(top: 1, leading: 2, bottom: 1, trailing: 2)
+                group.contentInsets = .init(top: UR.Constants.CollectionView.hourlySectionInsestTop, leading: UR.Constants.CollectionView.hourlySectionInsestLeading, bottom: UR.Constants.CollectionView.hourlySectionInsestBottom, trailing: UR.Constants.CollectionView.hourlySectionInsestTrailing)
             
                 let section =  NSCollectionLayoutSection(group: group)
                 section.orthogonalScrollingBehavior = .continuous
@@ -112,13 +142,22 @@ extension WeatherCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let collectionViewSection = CollectionViewSection.allCases[section]
+        
         switch collectionViewSection {
             case .current:
                 return 1
             case .hourly:
-                return viewModel.collectionHourly.count
+                if let hourlyCount = viewModel.weather?.forecast.forecastday.first!.hour.count {
+                    return hourlyCount
+                } else {
+                    return 24
+                }
             case .daily:
-                return viewModel.collectionDaily.count
+                if let dailyCount = viewModel.weather?.forecast.forecastday.count {
+                    return dailyCount
+                } else {
+                    return 7
+                }
         }
     }
     
@@ -129,31 +168,40 @@ extension WeatherCollectionView: UICollectionViewDataSource {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CurrentWeatherCell.identifier, for: indexPath) as? CurrentWeatherCell else {
                     return UICollectionViewCell()
                 }
+            
                 cell.searchIconTapedAction = {
                     self.delegate?.showAlertController()
                 }
                 cell.locationIconTapedAction = {
                     self.viewModel.getCurrentWeather()
                 }
-                cell.configureCell(for: viewModel.current, location: viewModel.location)
+            
+                if let currentCell = viewModel.weather?.current {
+                    if let currentLocation = viewModel.weather?.location {
+                        cell.configureCell(for: currentCell, location: currentLocation)
+                    }
+                }
                 return cell
             case .hourly:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HourlyWeatherCell.identifier, for: indexPath) as? HourlyWeatherCell else {
                     return UICollectionViewCell()
                 }
-                let hour = viewModel.collectionHourly[indexPath.row]
-                cell.configureCell(for: hour)
+            
+                if let collectionHours = viewModel.weather?.forecast.forecastday.first?.hour {
+                    cell.configureCell(for: collectionHours[indexPath.row])
+                }
+            
                 return cell
             case .daily:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyWeatherCell.identifier, for: indexPath) as? DailyWeatherCell else {
                     return UICollectionViewCell()
                 }
-                let day = viewModel.collectionDaily[indexPath.row]
-                cell.configureCell(for: day)
+            
+                if let collectionDays = viewModel.weather?.forecast.forecastday {
+                    cell.configureCell(for: collectionDays[indexPath.row])
+                }
+            
                 return cell
         }
-        
     }
-    
-    
 }

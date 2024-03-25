@@ -9,19 +9,13 @@ final class WeatherViewModel: ObservableObject {
     
     @Published var weather: Weather? = nil
     
-    var collectionHourly: [Hour] = []
+    @Published var loadingState: LoadingState = .none
     
-    var collectionDaily: [Forecastday] = []
-    
-    var current: Current = Current(dateEpoch: 0, tempC: 0, condition: Condition(text: "", icon: ""))
-    
-    var location: Location = Location(name: "", lat: 0, lon: 0)
-    
-    let weatherManager: WeatherManager = WeatherManager()
+    private let weatherManager: WeatherManager = WeatherManager()
     
     private var subscriptions = Set<AnyCancellable>()
     
-    private var service: WeatherServiceProtocol
+    private let service: WeatherServiceProtocol
     
     //MARK: - Init
     init(service: WeatherServiceProtocol = WeatherManager.shared) {
@@ -32,47 +26,37 @@ final class WeatherViewModel: ObservableObject {
     
     //MARK: - Functions
     func onSearchIconTapped() {
+        self.loadingState = .loading
         service.getCurrentWeather(city: self.city)
-            .sink { [weak self] value in
+            .sink { value in
                 switch(value) {
                     case .finished:
-                        break
-                case .failure(let error):
-                    print(error)
-                
+                        self.loadingState = .success
+                    case .failure(let error):
+                        self.loadingState = .failed
                 }
             } receiveValue: { [weak self] response in
                 self?.weather = response
-                self?.current = response.current
-                self?.location = response.location
-                self?.collectionDaily = response.forecast.forecastday
-                self?.collectionHourly = response.forecast.forecastday.first!.hour
             }
             .store(in: &self.subscriptions)
     }
     
     func getCurrentWeather() {
+        self.loadingState = .loading
         LocationManager.shared.getCurrentLocation { location in
             let newLocation: Location = Location(name: "", lat: location.coordinate.latitude, lon: location.coordinate.longitude)
             self.service.getCurrentWeather(location: newLocation)
-                .sink { [weak self] value in
+                .sink { value in
                     switch(value) {
                         case .finished:
-                            break
+                            self.loadingState = .success
                         case .failure(let error):
-                            print(error)
-                    
+                            self.loadingState = .failed
                     }
                 } receiveValue: { [weak self] response in
                     self?.weather = response
-                    self?.current = response.current
-                    self?.location = response.location
-                    self?.collectionDaily = response.forecast.forecastday
-                    self?.collectionHourly = response.forecast.forecastday.first!.hour
                 }
                 .store(in: &self.subscriptions)
         }
     }
-    
-    
 }

@@ -30,7 +30,7 @@ final class WeatherViewController: UIViewController {
     }
 }
 
-//MARK: - WeatherCollectionViewProtocolDelegate
+//MARK: - WeatherCollectionViewDelegate
 protocol WeatherCollectionViewProtocolDelegate: AnyObject {
     func showAlertController()
 }

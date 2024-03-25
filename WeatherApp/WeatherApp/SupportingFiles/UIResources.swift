@@ -22,6 +22,10 @@ final class UR {
     //MARK: - Constants
     struct Constants {
         struct CollectionView {
+            static let activityIndicatorTop = 128
+            static let activityIndicatorHeight = 100
+            static let indicatorText = "Ошибка загрузки данных!"
+            
             static let currentSectionItemWidth: CGFloat = 1.0
             static let currentSectionItemHeight: CGFloat = 1.0
             static let currentSectionGroupWidth: CGFloat = 1.0
@@ -31,6 +35,10 @@ final class UR {
             static let hourlySectionItemHeight: CGFloat = 1.0
             static let hourlySectionGroupWidth: CGFloat = 0.25
             static let hourlySectionGroupHeight: CGFloat = 150
+            static let hourlySectionInsestTop: CGFloat = 1
+            static let hourlySectionInsestLeading: CGFloat = 2
+            static let hourlySectionInsestBottom: CGFloat = 1
+            static let hourlySectionInsestTrailing: CGFloat = 2
             
             static let dailySectionItemWidth: CGFloat = 1.0
             static let dailySectionItemHeight: CGFloat = 1.0
