@@ -5,7 +5,7 @@ import Kingfisher
 final class CurrentWeatherCell: UICollectionViewCell {
     
     //MARK: - Identifier
-    static let identifier = "CurrentWeatherCell"
+    static let identifier = UR.Constants.CurrentCell.currentIdentifier
     
     //MARK: - Properties
     var searchIconTapedAction: (() -> ())?

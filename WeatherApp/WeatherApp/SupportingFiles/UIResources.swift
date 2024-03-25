@@ -47,6 +47,8 @@ final class UR {
         }
         
         struct CurrentCell {
+            static let currentIdentifier = "CurrentWeatherCell"
+            
             static let dateLeading = 16
             static let dateTop = 8
             static let dateHeight = 32
@@ -76,6 +78,8 @@ final class UR {
         }
         
         struct HourlyCell {
+            static let hourlyIdentifier = "HourlyWeatherCell"
+            
             static let hourlyAlpha = 0.9
             static let hourlyCornerRadius: CGFloat = 8
             static let hourltBorderWidth: CGFloat = 2
@@ -90,6 +94,8 @@ final class UR {
         }
         
         struct DailyCell {
+            static let dailyIdentifier = "DailyWeatherCell"
+            
             static let dailyBorderWidth: CGFloat = 1
             static let dailyAlpha: CGFloat = 0.8
             

@@ -4,7 +4,7 @@ import UIKit
 final class HourlyWeatherCell: UICollectionViewCell {
     
     //MARK: - Identifier
-    static let identifier = "HourlyWeatherCell"
+    static let identifier = UR.Constants.HourlyCell.hourlyIdentifier
     
     //MARK: - Properties
     private let hourLabel: UILabel = {
@@ -88,6 +88,5 @@ final class HourlyWeatherCell: UICollectionViewCell {
         
         let url = URL(string: "https:\(hour.condition.icon)")
         conditionImageView.kf.setImage(with: url)
-        
     }
 }

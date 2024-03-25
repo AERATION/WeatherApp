@@ -39,4 +39,3 @@ final class WeatherManager: WeatherServiceProtocol {
             .eraseToAnyPublisher()
     }
 }
-
