@@ -4,7 +4,7 @@ import UIKit
 final class DailyWeatherCell: UICollectionViewCell {
     
     //MARK: - Identifier
-    static let identifier = "DailyWeatherCell"
+    static let identifier = UR.Constants.DailyCell.dailyIdentifier
     
     //MARK: - Properties
     private let dayTimePeriodFormatter = DateFormatter()
