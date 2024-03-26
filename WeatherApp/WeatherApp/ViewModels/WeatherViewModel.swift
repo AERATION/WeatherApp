@@ -2,7 +2,7 @@ import Combine
 import UIKit
 import Foundation
 
-final class WeatherViewModel: ObservableObject {
+final class WeatherViewModel {
     
     //MARK: - Properties
     @Published var city: String = ""
